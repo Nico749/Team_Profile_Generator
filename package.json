@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Nico749/Team_Profile_Generator#readme",
   "dependencies": {
+    "inquirer": "^8.2.0",
     "jest": "^27.4.7"
   }
 }
