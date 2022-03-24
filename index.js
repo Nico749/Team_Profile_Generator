@@ -5,49 +5,35 @@ const Manager = require ("./lib/manager")
 
 const inquirer= require ('inquirer')
 const fs = require ('fs')
-//const myModule= require('./questions')
-// const managerquestions = myModule[0]
-// const engineerquestions = myModule[1]
-// const internquestions = myModule[2]
-//const manager =new Manager ("","","","")
-const intern = new Intern("","","","")
+
+let intern = new Intern("","","","")
 let engineer = new Engineer("","","","") 
-// initialize some variables
-let team;
 let manager = new Manager ("","","","")
+let team;
 
-
-
-
-// This function allows us to clear out the order variable
+//  allows us to clear out the team variable
 const clearTeam = () => {
-  // The order will be an array containing manager objects
   team = [];
-
-  // if we're clearing the order, we won't need the current manager, either
+  // if we're clearing the team, we won't need the current manager, either
   clearManager();
 };
 
-// This function allows us to reset the manager object for re-use in an order
+// allows us to reset the manager object for re-use in an order
 const clearManager = () => {
   // here we define an empty manager object
   manager = new Manager ("","","","")
-//   {
-//     name: "",
-//     id: "",
-//     mail: "",
-//     office: "",
-//   };
+  engineer = new Engineer("","","","")
+  intern = new Intern("","","","")
 };
 
-// startApp() will be how we begin the application
+// startApplication() will be how we begin the application
 const startApplication = () => {
         clearTeam();
+        //manager.getRole()
         getName();
       }
     
-
-// this function gets the user's name and adds it to the manager object
+//  gets the user's name and adds it to the manager object
 const getName = () => {
   inquirer
     .prompt([
@@ -62,7 +48,7 @@ const getName = () => {
     });
 };
 
-// this function gets the size of the manager and adds it to the manager object
+//  gets the id of the manager and adds it to the manager object
 const getId = () => {
   inquirer
     .prompt([
@@ -78,7 +64,7 @@ const getId = () => {
     });
 };
 
-// this function gets the desired crust type and adds it to the manager object
+//  gets the mail type and adds it to the manager object
 const getMail = () => {
   inquirer
     .prompt([
@@ -91,10 +77,10 @@ const getMail = () => {
     .then((res) => {
       manager.email = res.mail;
       getOffice();
+
     });
 };
 
-// this function gets the desired sauce type and adds it to the manager object
 const getOffice = () => {
   inquirer
     .prompt([
@@ -105,19 +91,139 @@ const getOffice = () => {
       },
     ])
     .then((res) => {
-      manager.officenumber = res.office;
+      manager.officenumber = res.office
       
-      team.push(manager);
-      anotherManager();
+      team.push(manager)
+      anotherMember()
     });
 };
 
+const getEngName = () => {
+  inquirer
+    .prompt([
+      {
+        name: "name",
+        message: "Name:"
+      },
+    ])
+    .then((res) => {
+      engineer.name = res.name;
+      getEngId();
+    });
+};
 
+//  gets the id of the manager and adds it to the manager object
+const getEngId = () => {
+  inquirer
+    .prompt([
+      {
+        name: "id",
+        type: "input",
+        message: "id:",
+      },
+    ])
+    .then((res) => {
+      engineer.id = res.id;
+      getEngMail();
+    });
+};
 
-// this function asks if the user wants another manager in their order
-// if they do, clear the manager object and start building a new one by getting the customer's name
-// if they don't print the order to the console and go back to the main menu
-const anotherManager = () => {
+//  gets the mail type and adds it to the manager object
+const getEngMail = () => {
+  inquirer
+    .prompt([
+      {
+        name: "mail",
+        type: "input",
+        message: "mail:",
+      },
+    ])
+    .then((res) => {
+      engineer.email = res.mail;
+      getGitHub();
+
+    });
+};
+const getGitHub = () => {
+  inquirer
+    .prompt([
+      {
+        name: "git",
+        type: "input",
+        message: "github:",
+      },
+    ])
+    .then((res) => {
+      engineer.github = res.git;
+      team.push(engineer)
+      anotherMember();
+
+    });
+}
+
+const getIntName = () => {
+  inquirer
+    .prompt([
+      {
+        name: "name",
+        message: "Name:"
+      },
+    ])
+    .then((res) => {
+      intern.name = res.name;
+      getIntId();
+    });
+};
+
+//  gets the id of the manager and adds it to the manager object
+const getIntId = () => {
+  inquirer
+    .prompt([
+      {
+        name: "id",
+        type: "input",
+        message: "id:",
+      },
+    ])
+    .then((res) => {
+      intern.id = res.id;
+      getIntMail();
+    });
+};
+
+//  gets the mail type and adds it to the manager object
+const getIntMail = () => {
+  inquirer
+    .prompt([
+      {
+        name: "mail",
+        type: "input",
+        message: "mail:",
+      },
+    ])
+    .then((res) => {
+      intern.email = res.mail;
+      getSchool();
+
+    });
+};
+const getSchool = () => {
+  inquirer
+    .prompt([
+      {
+        name: "school",
+        type: "input",
+        message: "school:",
+      },
+    ])
+    .then((res) => {
+      intern.school = res.school;
+      team.push(intern)
+      anotherMember();
+
+    });
+}
+const anotherMember = () => {
   inquirer
     .prompt([
       {
@@ -128,36 +234,37 @@ const anotherManager = () => {
     ])
     .then((res) => {
       if (res.another_member) {
-        clearManager();
+        //clearManager();
         inquirer
-                  .prompt([
-                    {
-                      name: "start",
-                      type: "list",
-                      message: "Who would you like to add ?",
-                      choices: ["Add an engineer", "Add an intern"],
-                    },
-                  ])
-                  .then((res) => {
-                    if (res.start === "Add an engineer") {
-                        //clearManager()
-                        getName()
-                       
-                    } else {
-                      getEmail();
-                      
-                    }
-                  });
+          .prompt([
+            {
+              name: "start",
+              type: "list",
+              message: "Who would you like to add ?",
+              choices: ["Add an engineer", "Add an intern"],
+            },
+          ])
+          .then((res) => {
+            if (res.start === "Add an engineer") {
+              let engineer = new Engineer("","","","")
+              getEngName()
+             
+            }
+            else {
+              let intern = new Intern("","","","")
+              getIntName()
+            }
+          });
 
-
-
-        //getName();
       } else {
-        console.log("Your team:", team);
-       
-      }
-    });
-};
+        console.log("Your team:", team)
 
-// since everything is broken down in to functions, we need to actually start the application
+      }
+    })
+}
+
+
+
+
 startApplication();
+
